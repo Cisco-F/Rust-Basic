@@ -1,19 +1,33 @@
-// vecs1.rs
-//
-// Your task is to create a `Vec` which holds the exact same elements as in the
-// array `a`.
-//
-// Make me compile and pass the test!
-//
-// Execute `rustlings hint vecs1` or use the `hint` watch subcommand for a hint.
+// In this exercise, you'll learn some of the unique advantages that iterators
+// can offer.
 
-// I AM NOT DONE
+// TODO: Complete the `capitalize_first` function.
+// "hello" -> "Hello"
+fn capitalize_first(input: &str) -> String {
+    let mut chars = input.chars();
+    match chars.next() {
+        None => String::new(),
+        Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
+    }
+}
 
-fn array_and_vec() -> ([i32; 4], Vec<i32>) {
-    let a = [10, 20, 30, 40]; // a plain array
-    let v = // TODO: declare your vector here with the macro for vectors
+// TODO: Apply the `capitalize_first` function to a slice of string slices.
+// Return a vector of strings.
+// ["hello", "world"] -> ["Hello", "World"]
+fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
+    words.iter().map(|&word| capitalize_first(word)).collect()
+}
 
-    (a, v)
+// TODO: Apply the `capitalize_first` function again to a slice of string
+// slices. Return a single string.
+// ["hello", " ", "world"] -> "Hello World"
+fn capitalize_words_string(words: &[&str]) -> String {
+    // ???
+    words.iter().map(|&word| capitalize_first(word)).collect()
+}
+
+fn main() {
+    // You can optionally experiment here.
 }
 
 #[cfg(test)]
@@ -21,8 +35,24 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_array_and_vec_similarity() {
-        let (a, v) = array_and_vec();
-        assert_eq!(a, v[..]);
+    fn test_success() {
+        assert_eq!(capitalize_first("hello"), "Hello");
+    }
+
+    #[test]
+    fn test_empty() {
+        assert_eq!(capitalize_first(""), "");
+    }
+
+    #[test]
+    fn test_iterate_string_vec() {
+        let words = vec!["hello", "world"];
+        assert_eq!(capitalize_words_vector(&words), ["Hello", "World"]);
+    }
+
+    #[test]
+    fn test_iterate_into_string() {
+        let words = vec!["hello", " ", "world"];
+        assert_eq!(capitalize_words_string(&words), "Hello World");
     }
 }

@@ -1,45 +1,33 @@
-// box1.rs
-//
-// At compile time, Rust needs to know how much space a type takes up. This
-// becomes problematic for recursive types, where a value can have as part of
-// itself another value of the same type. To get around the issue, we can use a
-// `Box` - a smart pointer used to store data on the heap, which also allows us
-// to wrap a recursive type.
-//
-// The recursive type we're implementing in this exercise is the `cons list` - a
-// data structure frequently found in functional programming languages. Each
-// item in a cons list contains two elements: the value of the current item and
-// the next item. The last item is a value called `Nil`.
-//
-// Step 1: use a `Box` in the enum definition to make the code compile
-// Step 2: create both empty and non-empty cons lists by replacing `todo!()`
-//
-// Note: the tests should not be changed
-//
-// Execute `rustlings hint box1` or use the `hint` watch subcommand for a hint.
+// In this exercise, you'll learn some of the unique advantages that iterators
+// can offer.
 
-// I AM NOT DONE
+// TODO: Complete the `capitalize_first` function.
+// "hello" -> "Hello"
+fn capitalize_first(input: &str) -> String {
+    let mut chars = input.chars();
+    match chars.next() {
+        None => String::new(),
+        Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
+    }
+}
 
-#[derive(PartialEq, Debug)]
-pub enum List {
-    Cons(i32, List),
-    Nil,
+// TODO: Apply the `capitalize_first` function to a slice of string slices.
+// Return a vector of strings.
+// ["hello", "world"] -> ["Hello", "World"]
+fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
+    words.iter().map(|&word| capitalize_first(word)).collect()
+}
+
+// TODO: Apply the `capitalize_first` function again to a slice of string
+// slices. Return a single string.
+// ["hello", " ", "world"] -> "Hello World"
+fn capitalize_words_string(words: &[&str]) -> String {
+    // ???
+    words.iter().map(|&word| capitalize_first(word)).collect()
 }
 
 fn main() {
-    println!("This is an empty cons list: {:?}", create_empty_list());
-    println!(
-        "This is a non-empty cons list: {:?}",
-        create_non_empty_list()
-    );
-}
-
-pub fn create_empty_list() -> List {
-    todo!()
-}
-
-pub fn create_non_empty_list() -> List {
-    todo!()
+    // You can optionally experiment here.
 }
 
 #[cfg(test)]
@@ -47,12 +35,24 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_create_empty_list() {
-        assert_eq!(List::Nil, create_empty_list())
+    fn test_success() {
+        assert_eq!(capitalize_first("hello"), "Hello");
     }
 
     #[test]
-    fn test_create_non_empty_list() {
-        assert_ne!(create_empty_list(), create_non_empty_list())
+    fn test_empty() {
+        assert_eq!(capitalize_first(""), "");
+    }
+
+    #[test]
+    fn test_iterate_string_vec() {
+        let words = vec!["hello", "world"];
+        assert_eq!(capitalize_words_vector(&words), ["Hello", "World"]);
+    }
+
+    #[test]
+    fn test_iterate_into_string() {
+        let words = vec!["hello", " ", "world"];
+        assert_eq!(capitalize_words_string(&words), "Hello World");
     }
 }

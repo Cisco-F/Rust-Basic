@@ -1,34 +1,37 @@
-// modules2.rs
-//
-// You can bring module paths into scopes and provide new names for them with
-// the 'use' and 'as' keywords. Fix these 'use' statements to make the code
-// compile.
-//
-// Execute `rustlings hint modules2` or use the `hint` watch subcommand for a
-// hint.
+// Calls of this function should be replaced with calls of `string_slice` or `string`.
+fn placeholder() {}
 
-// I AM NOT DONE
-
-mod delicious_snacks {
-    // TODO: Fix these use statements
-    use self::fruits::PEAR as ???
-    use self::veggies::CUCUMBER as ???
-
-    mod fruits {
-        pub const PEAR: &'static str = "Pear";
-        pub const APPLE: &'static str = "Apple";
-    }
-
-    mod veggies {
-        pub const CUCUMBER: &'static str = "Cucumber";
-        pub const CARROT: &'static str = "Carrot";
-    }
+fn string_slice(arg: &str) {
+    println!("{arg}");
 }
 
+fn string(arg: String) {
+    println!("{arg}");
+}
+
+// TODO: Here are a bunch of values - some are `String`, some are `&str`.
+// Your task is to replace `placeholder(…)` with either `string_slice(…)`
+// or `string(…)` depending on what you think each value is.
 fn main() {
-    println!(
-        "favorite snacks: {} and {}",
-        delicious_snacks::fruit,
-        delicious_snacks::veggie
-    );
+    string_slice("blue");
+
+    string("red".to_string());
+
+    string(String::from("hi"));
+
+    string("rust is fun!".to_owned());
+
+    string("nice weather".into());
+
+    string(format!("Interpolation {}", "Station"));
+
+    // WARNING: This is byte indexing, not character indexing.
+    // Character indexing can be done using `s.chars().nth(INDEX)`.
+    string_slice(&String::from("abc")[0..1]);
+
+    string_slice("  hello there ".trim());
+
+    string("Happy Monday!".replace("Mon", "Tues"));
+
+    string("mY sHiFt KeY iS sTiCkY".to_lowercase());
 }
